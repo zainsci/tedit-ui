@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <Layout title="Login">
-      <div className="max-w-xl min-h-screen m-auto flex flex-col flex-1 justify-center items-center">
+      <div className="max-w-xl min-w-full min-h-screen m-auto flex flex-col flex-1 justify-center items-center">
         <div className="w-full max-w-md m-auto bg-white px-12 py-16 space-y-8 flex flex-col items-center rounded-2xl border border-slate-200">
           <h1 className="text-3xl font-bold">Login</h1>
           <form onSubmit={handleSubmit} className="w-full flex flex-col">
