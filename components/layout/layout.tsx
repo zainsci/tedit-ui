@@ -1,6 +1,7 @@
 import React from "react"
-
 import Head from "next/head"
+
+import Header from "components/header"
 
 interface IProps {
   children: React.ReactNode
@@ -13,8 +14,11 @@ const Layout = ({ children, title }: IProps) => {
       <Head>
         <title>{title} - TEDIT</title>
       </Head>
+      <Header />
 
-      <div>{children}</div>
+      <div className="min-w-full min-h-full flex flex-col justify-center items-center mt-20">
+        {children}
+      </div>
     </>
   )
 }
