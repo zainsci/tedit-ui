@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/router"
 
 import Layout from "components/layout"
 import Input from "components/input"
@@ -9,6 +10,7 @@ const Register = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
+  const router = useRouter()
 
   function onEmailChange(e: React.FormEvent<HTMLInputElement>) {
     setEmail((e.target as HTMLInputElement).value)
@@ -44,7 +46,11 @@ const Register = () => {
         }, 3000)
       }
 
-      console.log(data)
+      if (data.username === username) {
+        setTimeout(() => {
+          router.push("/login")
+        }, 1000)
+      }
     } catch (e) {
       console.log("[Error]", e)
     }
@@ -55,6 +61,12 @@ const Register = () => {
 
     setTimeout(() => setErrorMsg(""), 3000)
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("jwt_token")) router.push("/")
+    }
+  }, [router])
 
   return (
     <Layout title="Register">

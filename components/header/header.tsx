@@ -1,9 +1,28 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 
+import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
+import { useRouter } from "next/router"
 
 const Header = () => {
-  const [username, setUsername] = useState("zainsci")
+  const {
+    state: { token, username },
+    setState,
+  } = useContext(RootContext)
+  const router = useRouter()
+
+  function handleLogOut(e: React.FormEvent<HTMLAnchorElement>) {
+    e.preventDefault()
+
+    if (typeof window !== "undefined") localStorage.clear()
+
+    setState({
+      token: "",
+      username: "",
+    })
+
+    router.push("/login")
+  }
 
   return (
     <header className="min-w-full p-6 absolute top-0 bg-white border-b border-slate-100 backdrop-blur-md">
@@ -14,10 +33,18 @@ const Header = () => {
           <li className="">
             <LinkButton href="/">Home</LinkButton>
           </li>
-
-          <li className="">
-            <LinkButton href="/">{username}</LinkButton>
-          </li>
+          {token && (
+            <>
+              <li className="">
+                <LinkButton href={`/user/${username}`}>{username}</LinkButton>
+              </li>
+              <li className="">
+                <LinkButton href={`/logout`} onClick={handleLogOut}>
+                  Logout
+                </LinkButton>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </header>

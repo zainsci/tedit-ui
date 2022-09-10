@@ -1,14 +1,17 @@
+import { useContext } from "react"
 import type { NextPage } from "next"
 
+import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
-import { useState } from "react"
 import Layout from "components/layout"
 import Post from "components/post"
 
 const Home: NextPage = () => {
-  const [auth, setAuth] = useState(true)
+  const {
+    state: { token },
+  } = useContext(RootContext)
 
-  return auth ? (
+  return token ? (
     <Layout title="Home">
       <div className="max-w-xl w-full m-auto flex flex-col min-full items-start flex-1 py-6">
         <Post />

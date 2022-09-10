@@ -1,14 +1,17 @@
-import React, { useState } from "react"
-import Link from "next/link"
+import React, { useContext, useEffect, useState } from "react"
+import { useRouter } from "next/router"
 
+import { RootContext } from "context"
 import Layout from "components/layout"
 import Input from "components/input"
 import Button, { LinkButton } from "components/buttons"
 
 const Login = () => {
+  const { state, setState } = useContext(RootContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
+  const router = useRouter()
 
   function onUsernameChange(e: React.FormEvent<HTMLInputElement>) {
     setUsername((e.target as HTMLInputElement).value)
@@ -35,12 +38,19 @@ const Login = () => {
       if (res.status !== 200) {
         showError(data.message)
       } else {
-        console.log(data)
+        if (typeof window !== "undefined") {
+          localStorage.setItem("jwt_token", data.token)
+          localStorage.setItem("username", username)
+        }
+        setState({
+          ...state,
+          token: data.token,
+          username,
+        })
+        router.push("/")
       }
     } catch (e) {
-      console.log("HERE COMES ERROR")
-      console.log(e)
-      console.log("HERE COMES ERROR")
+      showError("Login Failed!")
     }
   }
 
@@ -49,6 +59,12 @@ const Login = () => {
 
     setTimeout(() => setErrorMsg(""), 3000)
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("jwt_token")) router.push("/")
+    }
+  }, [router])
 
   return (
     <Layout title="Login">
