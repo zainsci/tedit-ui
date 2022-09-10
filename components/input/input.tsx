@@ -3,7 +3,7 @@ import React from "react"
 interface IProps extends React.HTMLProps<HTMLInputElement> {
   type: string
   id: string
-  label: string
+  label?: string
 }
 
 const Input = ({ type, id, label, ...props }: IProps) => {
