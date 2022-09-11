@@ -11,8 +11,8 @@ export interface IPost {
   id: string | number
   title: string
   body: string
-  createAt: Date
-  updateAt: Date
+  createdAt: Date
+  updatedAt: Date
   author: IUser
   group: IGroup
 }
