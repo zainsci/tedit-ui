@@ -13,8 +13,9 @@ export interface IPost {
   body: string
   createdAt: Date
   updatedAt: Date
-  author: IUser
-  group: IGroup
+  author?: IUser
+  group?: IGroup
+  comments?: IComment[]
 }
 
 export interface IGroup {
