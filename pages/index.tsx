@@ -4,7 +4,7 @@ import type { NextPage } from "next"
 import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
 import Layout from "components/layout"
-import Post from "components/post"
+import PostList from "components/post/postList"
 
 const Home: NextPage = () => {
   const {
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   return token ? (
     <Layout title="Home">
       <div className="max-w-xl w-full m-auto flex flex-col min-full items-start flex-1 py-6">
-        <Post />
+        <PostList home />
       </div>
     </Layout>
   ) : (
