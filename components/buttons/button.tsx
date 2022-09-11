@@ -2,7 +2,7 @@ import React from "react"
 
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   children?: string | React.ReactNode
-  variant?: ""
+  variant?: "primary" | "outlined"
   color?: "red" | "green" | "blue" | "purple"
   size?: "sm" | "md" | "lg"
   type?: "button" | "submit" | "reset" | undefined
@@ -10,7 +10,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
 
 const Button = ({
   children,
-  variant,
+  variant = "primary",
   color = "purple",
   size = "md",
   type,
@@ -39,38 +39,50 @@ const Button = ({
 
     switch (color) {
       case "purple":
-        className.push(
-          "bg-purple-500",
-          "border-purple-500",
-          "hover:bg-purple-400",
-          "hover:border-purple-400"
-        )
+        className.push("border-purple-500", "hover:border-purple-400")
         break
       case "red":
-        className.push(
-          "bg-red-500",
-          "border-red-500",
-          "hover:bg-red-400",
-          "hover:border-red-400"
-        )
+        className.push("border-red-500", "hover:border-red-400")
         break
       case "green":
-        className.push(
-          "bg-green-500",
-          "border-green-500",
-          "hover:bg-green-400",
-          "hover:border-green-400"
-        )
+        className.push("border-green-500", "hover:border-green-400")
         break
       case "blue":
-        className.push(
-          "bg-blue-500",
-          "border-blue-500",
-          "hover:bg-blue-400",
-          "hover:border-blue-400"
-        )
+        className.push("border-blue-500", "hover:border-blue-400")
         break
     }
+
+    if (variant === "primary")
+      switch (color) {
+        case "purple":
+          className.push("bg-purple-500", "hover:bg-purple-400")
+          break
+        case "red":
+          className.push("bg-red-500", "hover:bg-red-400")
+          break
+        case "green":
+          className.push("bg-green-500", "hover:bg-green-400")
+          break
+        case "blue":
+          className.push("bg-blue-500", "hover:bg-blue-400")
+          break
+      }
+
+    if (variant === "outlined")
+      switch (color) {
+        case "purple":
+          className.push("text-purple-500", "hover:text-purple-400")
+          break
+        case "red":
+          className.push("text-red-500", "hover:text-red-400")
+          break
+        case "green":
+          className.push("text-green-500", "hover:text-green-400")
+          break
+        case "blue":
+          className.push("text-blue-500", "hover:text-blue-400")
+          break
+      }
 
     return className.join(" ")
   }
