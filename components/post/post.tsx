@@ -12,7 +12,6 @@ const Post = ({
   createdAt,
   comments,
 }: IPost) => {
-  console.log(comments)
   return (
     <div className="min-w-full bg-white py-4 px-6 rounded-md border border-slate-200 mb-4">
       <h3 className="text-sm text-slate-600 flex items-center gap-2 mb-1">

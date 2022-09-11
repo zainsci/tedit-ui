@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
+import { IPost } from "lib/types"
 import Layout from "components/layout"
 import Post from "components/post"
-import { IComment, IPost } from "lib/types"
 import CommentList from "components/commentList"
+import Loader from "components/loader"
 
 const PostComments = () => {
   const [post, setPost] = useState<IPost>()
@@ -13,9 +14,11 @@ const PostComments = () => {
 
   useEffect(() => {
     async function fetchPost() {
-      const res = await fetch(`/api/posts/${id}`)
-      const data = await res.json()
-      setPost(data)
+      try {
+        const res = await fetch(`/api/posts/${id}`)
+        const data = await res.json()
+        setPost(data)
+      } catch (e) {}
     }
     fetchPost()
   }, [id])
@@ -23,7 +26,7 @@ const PostComments = () => {
   return (
     <Layout title={"Comment"}>
       <div className="flex flex-col py-6">
-        {post && <Post {...post} />}
+        {post ? <Post {...post} /> : <Loader />}
         <CommentList postId={id as string} />
       </div>
     </Layout>

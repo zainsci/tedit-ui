@@ -1,16 +1,19 @@
-import { IComment } from "lib/types"
 import React, { useEffect, useState } from "react"
 
+import { IComment } from "lib/types"
 import Comment, { AddComment } from "components/comment"
+import Loader from "components/loader"
 
 const CommentList = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<IComment[]>([])
 
   useEffect(() => {
     async function fetchComments() {
-      const res = await fetch(`/api/comments/${postId}`)
-      const data = await res.json()
-      setComments(data)
+      try {
+        const res = await fetch(`/api/comments/${postId}`)
+        const data = await res.json()
+        setComments(data)
+      } catch (e) {}
     }
     fetchComments()
   }, [postId])

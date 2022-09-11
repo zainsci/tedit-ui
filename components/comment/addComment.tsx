@@ -1,8 +1,9 @@
-import Button from "components/buttons"
-import Input from "components/input"
+import React, { useContext, useState } from "react"
+
 import { RootContext } from "context"
 import { IComment } from "lib/types"
-import React, { useContext, useState } from "react"
+import Input from "components/input"
+import Button from "components/buttons"
 
 interface IProps {
   postId: number | string
@@ -61,7 +62,7 @@ const AddComment = ({
 
   return (
     <div
-      className="flex flex-col my-2 border border-slate-200 rounded-lg bg-white"
+      className="w-full flex flex-col my-2 border border-slate-200 rounded-lg bg-white"
       onClick={(e) => e.preventDefault()}
     >
       <div className="p-2 border-b border-slate-200">
