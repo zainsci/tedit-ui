@@ -1,22 +1,36 @@
 import Button from "components/buttons"
 import Input from "components/input"
-import React, { useState } from "react"
+import { RootContext } from "context"
+import { IComment } from "lib/types"
+import React, { useContext, useState } from "react"
 
 interface IProps {
   postId: number | string
-  addComment: boolean
-  setAddComment: React.Dispatch<React.SetStateAction<boolean>>
+  comments?: IComment[]
+  setComments?: React.Dispatch<React.SetStateAction<IComment[]>>
 }
 
-const AddComment = ({ postId, addComment, setAddComment }: IProps) => {
-  const [value, setValue] = useState("")
+const AddComment = ({
+  postId,
+  comments = [],
+  setComments = () => {},
+}: IProps) => {
+  const {
+    state: { token },
+  } = useContext(RootContext)
+  const [cmtBody, setCmtBody] = useState("")
+  const [isErr, setIsErr] = useState(false)
+  const [message, setMessage] = useState("")
 
   function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
-    setValue((e.target as HTMLInputElement).value)
+    setCmtBody((e.target as HTMLInputElement).value)
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLButtonElement>) {
     e.preventDefault()
+
+    if (cmtBody.length <= 0)
+      return showMessage(true, "Please write something to comment")
 
     const res = await fetch(`/api/comments/${postId}`, {
       method: "POST",
@@ -24,13 +38,25 @@ const AddComment = ({ postId, addComment, setAddComment }: IProps) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        body: value,
-        token: "<<red_token>>",
+        body: cmtBody,
+        token,
       }),
     })
     const data = await res.json()
+    if (res.status !== 200) {
+      showMessage(true, "Comment was not Posted!")
+    }
 
-    console.log(data)
+    showMessage(false, "Comment Posted!")
+    setCmtBody("")
+    setComments([data, ...comments])
+  }
+
+  function showMessage(isE: boolean, msg: string) {
+    setIsErr(isE)
+    setMessage(msg)
+
+    setTimeout(() => setMessage(""), 3000)
   }
 
   return (
@@ -43,23 +69,21 @@ const AddComment = ({ postId, addComment, setAddComment }: IProps) => {
           type="text"
           id="comment"
           name="comment"
-          value={value}
+          value={cmtBody}
           onChange={handleOnChange}
           placeholder="Add a Comment!"
           className="w-full border-none outline-none px-2 h-10"
         />
       </div>
-      <div className="p-2 ml-auto flex gap-2">
-        <Button
-          size="sm"
-          color="red"
-          onClick={() => setAddComment(!addComment)}
-        >
-          Cancel
-        </Button>
-        <Button size="sm" onClick={handleSubmit}>
-          Comment
-        </Button>
+      <div className="p-2 flex justify-center items-center">
+        <p className={`ml-2 ${isErr ? "text-red-500" : "text-green-500"}`}>
+          {message}
+        </p>
+        <div className="ml-auto flex gap-2">
+          <Button size="sm" onClick={handleSubmit}>
+            Comment
+          </Button>
+        </div>
       </div>
     </div>
   )
