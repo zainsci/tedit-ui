@@ -6,35 +6,42 @@ import Button from "components/buttons"
 import Loader from "components/loader"
 
 interface IProps {
-  home?: boolean
+  groupName?: string
 }
 
-const PostList = ({ home = false }: IProps) => {
-  const [posts, setPosts] = useState<IPost[]>([])
+const PostList = ({ groupName }: IProps) => {
+  const [posts, setPosts] = useState<Set<IPost>>(new Set([]))
   const [currPage, setCurrPage] = useState(1)
   const [lastPage, setLastPage] = useState(false)
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch(`/api/posts?pageNo=${currPage}`)
+        let res
+        if (!groupName) res = await fetch(`/api/posts?pageNo=${currPage}`)
+        else
+          res = await fetch(`/api/posts/group/${groupName}?pageNo=${currPage}`)
         const data: IPost[] = await res.json()
 
+        const newSet = new Set<IPost>([...Array.from(posts)])
         if (data.length === 0) setLastPage(true)
-        else setPosts((posts) => [...posts, ...data])
+        else {
+          data.forEach((post) => newSet.add(post))
+          setPosts(newSet)
+        }
       } catch (e) {}
     }
 
     fetchPosts()
-  }, [currPage])
+  }, [currPage, groupName])
 
   function loadMore() {
     setCurrPage(currPage + 1)
   }
 
-  return posts && posts.length > 0 ? (
+  return posts && Array.from(posts).length > 0 ? (
     <div>
-      {posts.map((post) => (
+      {Array.from(posts).map((post) => (
         <Post key={post.id} {...post} />
       ))}
 
