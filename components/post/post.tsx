@@ -3,7 +3,16 @@ import Link from "next/link"
 
 import { IPost } from "lib/types"
 
-const Post = ({ id, title, body, group, author, createdAt }: IPost) => {
+const Post = ({
+  id,
+  title,
+  body,
+  group,
+  author,
+  createdAt,
+  comments,
+}: IPost) => {
+  console.log(comments)
   return (
     <div className="min-w-full bg-white py-4 px-6 rounded-md border border-slate-200 mb-4">
       <h3 className="text-sm text-slate-600 flex items-center gap-2 mb-1">
@@ -32,7 +41,8 @@ const Post = ({ id, title, body, group, author, createdAt }: IPost) => {
 
       <Link href={`/comments/${id}`}>
         <a className="px-3 py-1 border bg-white border-slate-200 rounded-md w-fit text-sm hover:bg-slate-50">
-          Comments
+          <span>Comments</span>{" "}
+          <span className="text-xs">{comments?.length}</span>
         </a>
       </Link>
     </div>

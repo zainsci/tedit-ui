@@ -1,8 +1,9 @@
-import Button from "components/buttons"
-import { IPost } from "lib/types"
 import React, { useEffect, useState } from "react"
 
 import Post from "./post"
+import { IPost } from "lib/types"
+import Button from "components/buttons"
+import Loader from "components/loader"
 
 interface IProps {
   home?: boolean
@@ -15,11 +16,13 @@ const PostList = ({ home = false }: IProps) => {
 
   useEffect(() => {
     async function fetchPosts() {
-      const res = await fetch(`/api/posts?pageNo=${currPage}`)
-      const data: IPost[] = await res.json()
+      try {
+        const res = await fetch(`/api/posts?pageNo=${currPage}`)
+        const data: IPost[] = await res.json()
 
-      if (data.length === 0) setLastPage(true)
-      else setPosts([...posts, ...data])
+        if (data.length === 0) setLastPage(true)
+        else setPosts((posts) => [...posts, ...data])
+      } catch (e) {}
     }
 
     fetchPosts()
@@ -29,11 +32,11 @@ const PostList = ({ home = false }: IProps) => {
     setCurrPage(currPage + 1)
   }
 
-  return (
+  return posts && posts.length > 0 ? (
     <div>
-      {posts &&
-        posts.length > 0 &&
-        posts.map((post) => <Post key={post.id} {...post} />)}
+      {posts.map((post) => (
+        <Post key={post.id} {...post} />
+      ))}
 
       {lastPage ? (
         <div className="px-3 py-1 border border-slate-200 rounded-md">
@@ -45,6 +48,8 @@ const PostList = ({ home = false }: IProps) => {
         </Button>
       )}
     </div>
+  ) : (
+    <Loader />
   )
 }
 
