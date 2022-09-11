@@ -16,6 +16,7 @@ export interface IPost {
   author?: IUser
   group?: IGroup
   comments?: IComment[]
+  _count?: any
 }
 
 export interface IGroup {
@@ -25,6 +26,7 @@ export interface IGroup {
   admins?: IUser[]
   users?: IUser[]
   posts?: IPost[]
+  _count?: any
 }
 
 export interface IComment {
@@ -34,4 +36,5 @@ export interface IComment {
   updatedAt: Date
   author: IUser
   post: IPost
+  _count?: any
 }
