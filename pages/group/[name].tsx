@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
+import { RootContext } from "context"
 import { IGroup } from "lib/types"
 import Layout from "components/layout"
 import Button from "components/buttons"
-import PostList from "components/post/postList"
+import { PostList } from "components/post"
 import Loader from "components/loader"
-import { RootContext } from "context"
 
 const Group = () => {
   const router = useRouter()
@@ -57,23 +57,29 @@ const Group = () => {
         </div>
         {name ? (
           <div className="w-56 h-fit px-4 py-2 bg-white border border-slate-200 rounded-md">
-            <h3 className="text-lg font-bold">{group?.name}</h3>
-            <div className="text-sm mb-2 font-semibold flex gap-2">
-              <div className="flex-1 flex flex-col">
-                <div>Users</div>
-                <div>{group?._count?.users}</div>
-              </div>
-              <div className="flex-1 flex flex-col">
-                <Button
-                  size="sm"
-                  variant={joined ? "outlined" : "primary"}
-                  onClick={joinGroup}
-                >
-                  {joined ? "Joined" : "Join"}
-                </Button>
-              </div>
-            </div>
-            <p>{group?.description}</p>
+            {group ? (
+              <>
+                <h3 className="text-lg font-bold">{group?.name}</h3>
+                <div className="text-sm mb-2 font-semibold flex gap-2">
+                  <div className="flex-1 flex flex-col">
+                    <div>Users</div>
+                    <div>{group?._count?.users}</div>
+                  </div>
+                  <div className="flex-1 flex flex-col">
+                    <Button
+                      size="sm"
+                      variant={joined ? "outlined" : "primary"}
+                      onClick={joinGroup}
+                    >
+                      {joined ? "Joined" : "Join"}
+                    </Button>
+                  </div>
+                </div>
+                <p>{group?.description}</p>
+              </>
+            ) : (
+              <Loader />
+            )}
           </div>
         ) : (
           <Loader />
