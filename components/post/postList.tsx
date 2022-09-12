@@ -19,11 +19,11 @@ const PostList = ({ groupName, userName }: IProps) => {
     async function fetchPosts() {
       try {
         let res
-        if (groupName)
+        if (groupName) {
           res = await fetch(`/api/posts/group/${groupName}?pageNo=${currPage}`)
-        if (userName)
+        } else if (userName) {
           res = await fetch(`/api/posts/user/${userName}?pageNo=${currPage}`)
-        else res = await fetch(`/api/posts?pageNo=${currPage}`)
+        } else res = await fetch(`/api/posts?pageNo=${currPage}`)
         const data: IPost[] = await res.json()
 
         const newSet = new Set<IPost>([...Array.from(posts)])
