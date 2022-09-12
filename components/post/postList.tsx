@@ -7,9 +7,10 @@ import Loader from "components/loader"
 
 interface IProps {
   groupName?: string
+  userName?: string
 }
 
-const PostList = ({ groupName }: IProps) => {
+const PostList = ({ groupName, userName }: IProps) => {
   const [posts, setPosts] = useState<Set<IPost>>(new Set([]))
   const [currPage, setCurrPage] = useState(1)
   const [lastPage, setLastPage] = useState(false)
@@ -18,9 +19,11 @@ const PostList = ({ groupName }: IProps) => {
     async function fetchPosts() {
       try {
         let res
-        if (!groupName) res = await fetch(`/api/posts?pageNo=${currPage}`)
-        else
+        if (groupName)
           res = await fetch(`/api/posts/group/${groupName}?pageNo=${currPage}`)
+        if (userName)
+          res = await fetch(`/api/posts/user/${userName}?pageNo=${currPage}`)
+        else res = await fetch(`/api/posts?pageNo=${currPage}`)
         const data: IPost[] = await res.json()
 
         const newSet = new Set<IPost>([...Array.from(posts)])
@@ -33,26 +36,32 @@ const PostList = ({ groupName }: IProps) => {
     }
 
     fetchPosts()
-  }, [currPage, groupName])
+  }, [currPage, groupName, userName])
 
   function loadMore() {
     setCurrPage(currPage + 1)
   }
 
-  return posts && Array.from(posts).length > 0 ? (
+  return posts ? (
     <div>
-      {Array.from(posts).map((post) => (
-        <Post key={post.id} {...post} />
-      ))}
+      {Array.from(posts).length > 0 ? (
+        <>
+          {Array.from(posts).map((post) => (
+            <Post key={post.id} {...post} />
+          ))}
 
-      {lastPage ? (
-        <div className="px-3 py-1 border border-slate-200 rounded-md">
-          No more Posts to load!
-        </div>
+          {lastPage ? (
+            <div className="px-3 py-1 border border-slate-200 rounded-md">
+              No more Posts to load!
+            </div>
+          ) : (
+            <Button size="sm" onClick={loadMore}>
+              Load More
+            </Button>
+          )}
+        </>
       ) : (
-        <Button size="sm" onClick={loadMore}>
-          Load More
-        </Button>
+        <div>Nothing Here!</div>
       )}
     </div>
   ) : (
