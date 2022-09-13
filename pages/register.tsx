@@ -102,7 +102,9 @@ const Register = () => {
 
           <div className="text-sm flex justify-center items-center space-x-2">
             <span className="text-slate-700">Already a User?</span>
-            <LinkButton href="/login">Login</LinkButton>
+            <LinkButton href="/login" size="sm">
+              Login
+            </LinkButton>
           </div>
         </div>
       </div>

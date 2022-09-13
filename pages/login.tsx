@@ -5,6 +5,7 @@ import { RootContext } from "context"
 import Layout from "components/layout"
 import Input from "components/input"
 import Button, { LinkButton } from "components/buttons"
+import Link from "components/link"
 
 const Login = () => {
   const { state, setState } = useContext(RootContext)
@@ -92,12 +93,16 @@ const Login = () => {
           {errorMsg && <div className="text-sm text-red-500">{errorMsg}</div>}
 
           <div className="text-sm flex justify-center items-center space-x-2">
-            <LinkButton href="/forgot-password">Forgot Password?</LinkButton>
+            <LinkButton href="/forgot-password" size="sm">
+              Forgot Password?
+            </LinkButton>
           </div>
 
           <div className="text-sm flex justify-center items-center space-x-2">
             <span className="text-slate-700">Don&apos;t have an account?</span>
-            <LinkButton href="/register">Register</LinkButton>
+            <LinkButton href="/register" size="sm">
+              Register
+            </LinkButton>
           </div>
         </div>
       </div>
