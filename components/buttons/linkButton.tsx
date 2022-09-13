@@ -2,28 +2,47 @@ import React from "react"
 
 import Link from "components/link"
 interface IProps extends React.HTMLAttributes<HTMLAnchorElement> {
-  href: string
+  href?: string
   children: string | React.ReactNode
   size?: "sm" | "md" | "lg"
+  className?: string
 }
 
-const LinkButton = ({ href, children, size = "md", ...rest }: IProps) => {
+const LinkButton = ({
+  href,
+  children,
+  size = "md",
+  className,
+  ...rest
+}: IProps) => {
   function getClassNames() {
-    const className = ["rounded-md"]
+    const styles = [
+      "rounded-md",
+      "flex",
+      "justify-center",
+      "items-center",
+      "cursor-pointer",
+      className,
+      !href && "hover:bg-gray-200",
+    ]
 
     switch (size) {
       case "sm":
-        className.push("px-2", "py-1")
+        styles.push("text-sm", "px-3", "py-1", "gap-2")
         break
       case "md":
-        className.push("px-3", "py-2")
+        styles.push("text-md", "px-3", "py-2", "gap-3")
         break
       case "lg":
-        className.push("px-4", "py-3")
+        styles.push("px-4", "py-3")
         break
     }
 
-    return className.join(" ")
+    return styles.join(" ")
+  }
+
+  if (!href) {
+    return <div className={getClassNames()}>{children}</div>
   }
 
   return (
@@ -34,7 +53,7 @@ const LinkButton = ({ href, children, size = "md", ...rest }: IProps) => {
       inactiveClassName="hover:bg-gray-200"
       {...rest}
     >
-      {() => <span>{children}</span>}
+      {() => <>{children}</>}
     </Link>
   )
 }

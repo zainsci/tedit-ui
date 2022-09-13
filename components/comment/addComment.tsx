@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 
 import { RootContext } from "context"
 import { IComment } from "lib/types"
-import Input from "components/input"
+import Input, { TextArea } from "components/input"
 import Button from "components/buttons"
 
 interface IProps {
@@ -62,22 +62,22 @@ const AddComment = ({
 
   return (
     <div
-      className="w-full flex flex-col my-2 border border-slate-200 rounded-lg bg-white"
+      className="w-full flex flex-col rounded-lg bg-white"
       onClick={(e) => e.preventDefault()}
     >
-      <div className="p-2 border-b border-slate-200">
-        <Input
-          type="text"
-          id="comment"
-          name="comment"
-          value={cmtBody}
-          onChange={handleOnChange}
-          placeholder="Add a Comment!"
-          className="w-full border-none outline-none px-2 h-10"
-        />
-      </div>
-      <div className="p-2 flex justify-center items-center">
-        <p className={`ml-2 ${isErr ? "text-red-500" : "text-green-500"}`}>
+      <TextArea
+        id="comment"
+        value={cmtBody}
+        setValue={setCmtBody}
+        placeholder="Add a Comment!"
+        label="Add your comment"
+      />
+      <div className="flex justify-center items-center">
+        <p
+          className={`ml-2 text-sm ${
+            isErr ? "text-red-500" : "text-green-500"
+          }`}
+        >
           {message}
         </p>
         <div className="ml-auto flex gap-2">

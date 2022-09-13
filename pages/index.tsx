@@ -13,8 +13,8 @@ const Home: NextPage = () => {
 
   return token ? (
     <Layout title="Home">
-      <div className="max-w-xl w-full m-auto flex flex-col min-full items-start flex-1 py-6">
-        <PostList home />
+      <div className="max-w-xl w-full">
+        <PostList />
       </div>
     </Layout>
   ) : (

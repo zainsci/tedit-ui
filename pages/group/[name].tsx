@@ -56,52 +56,51 @@ const Group = () => {
           setCreatePost={setCreatePost}
         />
       )}
+
       <Layout title={""}>
-        <div className="w-full max-w-3xl flex gap-4 py-4">
-          <div className="w-full max-w-xl flex-1">
-            {typeof name !== "undefined" ? (
-              <PostList groupName={name as string} />
-            ) : (
-              <Loader />
-            )}
-          </div>
-          {name ? (
-            <div className="flex flex-col">
-              <div className="w-56 h-fit px-4 py-2 bg-white border border-slate-200 rounded-md">
-                {group ? (
-                  <>
-                    <h3 className="text-lg font-bold">{group?.name}</h3>
-                    <div className="text-sm mb-2 font-semibold flex gap-2">
-                      <div className="flex-1 flex flex-col">
-                        <div>Users</div>
-                        <div>{group?._count?.users}</div>
-                      </div>
-                      <div className="flex-1 flex flex-col">
-                        <Button
-                          size="sm"
-                          variant={joined ? "outlined" : "primary"}
-                          onClick={joinGroup}
-                        >
-                          {joined ? "Joined" : "Join"}
-                        </Button>
-                      </div>
-                    </div>
-                    <p>{group?.description}</p>
-                  </>
-                ) : (
-                  <Loader />
-                )}
-              </div>
-              <div className="p-2">
-                <Button size="sm" onClick={() => setCreatePost(!createPost)}>
-                  Create a New Post!
-                </Button>
-              </div>
-            </div>
+        <div className="w-full max-w-xl flex-1">
+          {typeof name !== "undefined" ? (
+            <PostList groupName={name as string} />
           ) : (
             <Loader />
           )}
         </div>
+        {name ? (
+          <div className="flex flex-col shadow-sm">
+            <div className="w-56 h-fit px-4 py-2 bg-white border border-slate-200 rounded-md">
+              {group ? (
+                <>
+                  <h3 className="text-lg font-bold">{group?.name}</h3>
+                  <div className="text-xs mb-2 font-semibold flex gap-2">
+                    <div className="flex-1 flex flex-col text-slate-600">
+                      <div>Users</div>
+                      <div>{group?._count?.users}</div>
+                    </div>
+                    <div className="flex-1 flex flex-col">
+                      <Button
+                        size="sm"
+                        variant={joined ? "outlined" : "primary"}
+                        onClick={joinGroup}
+                      >
+                        {joined ? "Joined" : "Join"}
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">{group?.description}</p>
+                </>
+              ) : (
+                <Loader />
+              )}
+            </div>
+            <div className="my-2">
+              <Button size="sm" onClick={() => setCreatePost(!createPost)}>
+                Create a New Post!
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Loader />
+        )}
       </Layout>
     </>
   )

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
 
 import { RootContext } from "context"
-import Input from "components/input"
+import Input, { TextArea } from "components/input"
 import Button from "components/buttons"
 import { useRouter } from "next/router"
 
@@ -27,10 +27,6 @@ const NewPost = ({
 
   function handleTitleChange(e: React.FormEvent<HTMLInputElement>) {
     setTitle((e.target as HTMLInputElement).value)
-  }
-
-  function handleBodyChange(e: React.FormEvent<HTMLInputElement>) {
-    setBody((e.target as HTMLInputElement).value)
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLButtonElement>) {
@@ -72,29 +68,27 @@ const NewPost = ({
       onClick={() => setCreatePost(!createPost)}
     >
       <div
-        className="w-full max-w-2xl p-6 border border-slate-200 rounded-lg bg-white"
+        className="w-full max-w-2xl space-y-6 p-6 bg-white border border-slate-200 rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-2 border border-slate-200 rounded-md mb-4">
+        <div>
           <Input
             type="text"
             id="title"
             name="title"
             value={title}
             onChange={handleTitleChange}
-            placeholder="Add Title!"
-            className="w-full border-none outline-none px-2 h-10"
+            placeholder="Post title here!"
+            label="Post title"
           />
         </div>
-        <div className="p-2 border border-slate-200 rounded-md mb-4">
-          <Input
-            type="text"
+        <div>
+          <TextArea
             id="comment"
-            name="comment"
             value={body}
-            onChange={handleBodyChange}
-            placeholder="Post Content Here!"
-            className="w-full border-none outline-none px-2 h-10"
+            setValue={setBody}
+            placeholder="Post content here!"
+            label="Post Content"
           />
         </div>
         <div className="flex justify-center items-center">

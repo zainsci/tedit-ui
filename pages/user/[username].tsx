@@ -26,7 +26,7 @@ const User = () => {
 
   return (
     <Layout title={""}>
-      <div className="w-full max-w-3xl flex gap-4 py-4">
+      <div className="w-full max-w-3xl flex gap-4">
         <div className="w-full max-w-xl flex-1">
           {typeof username !== "undefined" ? (
             <PostList userName={username as string} />

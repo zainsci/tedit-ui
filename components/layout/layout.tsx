@@ -16,8 +16,9 @@ const Layout = ({ children, title }: IProps) => {
       </Head>
       <Header />
 
+      {}
       <div className="min-w-full min-h-full flex flex-col justify-center items-center mt-20 px-6">
-        {children}
+        <div className="w-full max-w-3xl flex gap-4 py-4">{children}</div>
       </div>
     </>
   )

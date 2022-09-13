@@ -25,9 +25,11 @@ const PostComments = () => {
 
   return (
     <Layout title={"Comment"}>
-      <div className="flex flex-col py-6">
-        {post ? <Post {...post} /> : <Loader />}
-        <CommentList postId={id as string} />
+      <div className="w-full max-w-xl">
+        <div className="flex flex-col">
+          {post ? <Post {...post} /> : <Loader />}
+          <CommentList postId={id as string} />
+        </div>
       </div>
     </Layout>
   )

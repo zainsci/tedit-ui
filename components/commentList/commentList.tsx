@@ -19,7 +19,7 @@ const CommentList = ({ postId }: { postId: string }) => {
   }, [postId])
 
   return (
-    <div className="min-w-full bg-white p-4 rounded-md border border-slate-200 mb-4 space-y-4">
+    <div className="min-w-full bg-white px-6 py-4 rounded-md border border-slate-200 mb-4 space-y-4 shadow-sm">
       <AddComment
         postId={postId}
         comments={comments}
@@ -29,7 +29,9 @@ const CommentList = ({ postId }: { postId: string }) => {
       {comments.length > 0 ? (
         comments.map((comment) => <Comment key={comment.id} {...comment} />)
       ) : (
-        <div>No Comments</div>
+        <div className="w-full text-center px-2 text-sm text-slate-600">
+          No Comments! 😞
+        </div>
       )}
     </div>
   )

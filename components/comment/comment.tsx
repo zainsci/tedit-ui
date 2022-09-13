@@ -21,7 +21,7 @@ const Comment = ({ id, body, author, createdAt }: IComment) => {
           })}
         </span>
       </div>
-      <div className="m-0 text-black">{body}</div>
+      <div className="m-0 text-gray-700">{body}</div>
     </div>
   )
 }

@@ -17,7 +17,14 @@ const Button = ({
   ...props
 }: IProps) => {
   function getClassNames() {
-    const className = ["font-bold", "rounded-md", "text-white", "border"]
+    const className = [
+      "font-medium",
+      "text-sm",
+      "rounded-md",
+      "text-white",
+      "border",
+      "shadow-md",
+    ]
 
     const colors = {
       red: {},

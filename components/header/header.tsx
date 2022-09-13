@@ -26,7 +26,7 @@ const Header = () => {
   }
 
   return (
-    <header className="min-w-full h-16 fixed top-0 bg-white/50 text-gray-900 flex justify-center items-center backdrop-blur-3xl">
+    <header className="min-w-full h-16 fixed top-0 bg-white/50 text-gray-900 shadow-sm flex justify-center items-center backdrop-blur-3xl">
       <div className="w-full max-w-3xl m-auto flex justify-between items-center">
         <h3 className="text-xl font-bold">
           <samp>TEDIT</samp>
