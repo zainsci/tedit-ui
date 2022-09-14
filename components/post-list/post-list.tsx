@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 
-import Post from "./post"
 import { IPost } from "lib/types"
+import Post from "components/post"
 import Button from "components/buttons"
 import Loader from "components/loader"
+import { RootContext } from "context"
 
 interface IProps {
   groupName?: string
@@ -11,6 +12,9 @@ interface IProps {
 }
 
 const PostList = ({ groupName, userName }: IProps) => {
+  const {
+    state: { username },
+  } = useContext(RootContext)
   const [posts, setPosts] = useState<Set<IPost>>(new Set([]))
   const [currPage, setCurrPage] = useState(1)
   const [lastPage, setLastPage] = useState(false)
@@ -20,10 +24,15 @@ const PostList = ({ groupName, userName }: IProps) => {
       try {
         let res
         if (groupName) {
-          res = await fetch(`/api/posts/group/${groupName}?pageNo=${currPage}`)
+          res = await fetch(
+            `/api/posts/group/${groupName}?pageNo=${currPage}&username=${username}`
+          )
         } else if (userName) {
           res = await fetch(`/api/posts/user/${userName}?pageNo=${currPage}`)
-        } else res = await fetch(`/api/posts?pageNo=${currPage}`)
+        } else
+          res = await fetch(
+            `/api/posts?pageNo=${currPage}&username=${username}`
+          )
         const data: IPost[] = await res.json()
 
         const newSet = new Set<IPost>([...Array.from(posts)])
@@ -31,6 +40,7 @@ const PostList = ({ groupName, userName }: IProps) => {
         else {
           data.forEach((post) => newSet.add(post))
           setPosts(newSet)
+          console.log(newSet)
         }
       } catch (e) {}
     }

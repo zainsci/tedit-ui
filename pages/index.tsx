@@ -4,7 +4,7 @@ import type { NextPage } from "next"
 import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
 import Layout from "components/layout"
-import PostList from "components/post/postList"
+import PostList from "components/post-list"
 
 const Home: NextPage = () => {
   const {

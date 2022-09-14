@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
 import { IPost } from "lib/types"
 import Layout from "components/layout"
 import Post from "components/post"
-import CommentList from "components/commentList"
+import CommentList from "components/comment-list"
 import Loader from "components/loader"
+import { RootContext } from "context"
 
 const PostComments = () => {
+  const {
+    state: { username },
+  } = useContext(RootContext)
   const [post, setPost] = useState<IPost>()
   const router = useRouter()
   const { id } = router.query
@@ -15,7 +19,7 @@ const PostComments = () => {
   useEffect(() => {
     async function fetchPost() {
       try {
-        const res = await fetch(`/api/posts/${id}`)
+        const res = await fetch(`/api/posts/${id}?username=${username}`)
         const data = await res.json()
         setPost(data)
       } catch (e) {}

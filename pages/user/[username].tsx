@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 
 import { IUser } from "lib/types"
 import Layout from "components/layout"
-import { PostList } from "components/post"
+import PostList from "components/post-list"
 import Loader from "components/loader"
 
 const User = () => {
@@ -22,7 +22,7 @@ const User = () => {
     }
 
     if (typeof username !== "undefined") fetchGroup()
-  }, [username])
+  }, [username, router])
 
   return (
     <Layout title={""}>

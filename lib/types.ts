@@ -5,6 +5,8 @@ export interface IUser {
   groups?: IGroup[]
   posts?: IPost[]
   comments?: IComment[]
+  upvotes?: IPost[]
+  downvotes?: IPost[]
 }
 
 export interface IPost {
@@ -16,6 +18,8 @@ export interface IPost {
   author?: IUser
   group?: IGroup
   comments?: IComment[]
+  upvotes?: IUser[]
+  downvotes?: IUser[]
   _count?: any
 }
 

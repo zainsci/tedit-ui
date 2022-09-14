@@ -1,15 +1,31 @@
-import React from "react"
+import React, { useContext } from "react"
 import Link from "next/link"
 
 import { IPost } from "lib/types"
-import { MessageSquare, MoreHorizontal } from "components/icons"
+import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
+import PostSettings from "components/post-settings"
 import Voting from "components/voting"
+import { MessageSquare } from "components/icons"
 
-const Post = ({ id, title, body, group, author, createdAt }: IPost) => {
+const Post = ({
+  id,
+  title,
+  body,
+  group,
+  author,
+  createdAt,
+  upvotes,
+  downvotes,
+  _count,
+}: IPost) => {
+  const {
+    state: { username },
+  } = useContext(RootContext)
+
   return (
     <div className="min-w-full bg-white py-4 px-5 rounded-md border border-slate-200 mb-4 shadow-sm">
-      <div className="w-full flex justify-between items-center mb-2 text-sm">
+      <div className="w-full flex justify-between items-center mb-2 text-sm h-6">
         <h3 className="text-sm text-slate-600 flex items-center gap-2">
           <Link href={`/group/${group?.name}`}>
             <a className="text-black font-semibold hover:underline">
@@ -29,9 +45,9 @@ const Post = ({ id, title, body, group, author, createdAt }: IPost) => {
             })}
           </span>
         </h3>
-        <div className="hover:bg-slate-100 cursor-pointer p-1 rounded-md">
-          <MoreHorizontal />
-        </div>
+        {username === author?.username && (
+          <PostSettings id={id} title={title} body={body} />
+        )}
       </div>
 
       <h3 className="text-lg font-semibold leading-5 mb-1">{title}</h3>
@@ -48,9 +64,19 @@ const Post = ({ id, title, body, group, author, createdAt }: IPost) => {
             <MessageSquare />
           </span>
           <span>Comments</span>
+          {_count?.comments > 0 && (
+            <div className="text-[.65rem] w-5 h-5 border border-slate-100 rounded-md bg-white flex justify-center items-center">
+              {_count?.comments}
+            </div>
+          )}
         </LinkButton>
 
-        <Voting id={id} />
+        <Voting
+          id={id}
+          upvotes={upvotes}
+          downvotes={downvotes}
+          _count={_count}
+        />
       </div>
     </div>
   )

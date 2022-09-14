@@ -6,22 +6,31 @@ import Button from "components/buttons"
 import { useRouter } from "next/router"
 
 interface IProps {
-  groupName: string
-  createPost?: boolean
-  setCreatePost?: React.Dispatch<React.SetStateAction<boolean>>
+  groupName?: string
+  isAddPost?: boolean
+  setIsAddPost?: React.Dispatch<React.SetStateAction<boolean>>
+  update?: boolean
+  id?: string | number
+  meta?: {
+    title: string
+    body: string
+  }
 }
 
-const NewPost = ({
+const AddPost = ({
   groupName,
-  createPost,
-  setCreatePost = () => {},
+  isAddPost,
+  setIsAddPost = () => {},
+  update = false,
+  id,
+  meta = { title: "", body: "" },
 }: IProps) => {
   const {
     state: { token },
   } = useContext(RootContext)
   const router = useRouter()
-  const [title, setTitle] = useState("")
-  const [body, setBody] = useState("")
+  const [title, setTitle] = useState(meta.title)
+  const [body, setBody] = useState(meta.body)
   const [isErr, setIsErr] = useState(false)
   const [message, setMessage] = useState("")
 
@@ -34,25 +43,42 @@ const NewPost = ({
 
     if (body.length <= 0)
       return showMessage(true, "Please write something to comment")
+    let res
 
-    const res = await fetch(`/api/posts/${groupName}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        body,
-        token,
-      }),
-    })
+    if (update) {
+      res = await fetch(`/api/posts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          body,
+          token,
+        }),
+      })
+    } else {
+      res = await fetch(`/api/posts/${groupName}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          body,
+          token,
+        }),
+      })
+    }
     const data = await res.json()
     if (res.status !== 200) {
-      showMessage(true, "Post was not Posted!")
+      showMessage(true, "Server Error!")
     }
 
-    showMessage(false, "Posted! - Now Reloading!")
-    setTimeout(() => router.reload(), 1000)
+    update
+      ? showMessage(false, "Updated! - Now Reloading!")
+      : showMessage(false, "Posted! - Now Reloading!")
+    setTimeout(() => router.reload(), 500)
   }
 
   function showMessage(isE: boolean, msg: string) {
@@ -64,8 +90,8 @@ const NewPost = ({
 
   return (
     <div
-      className="absolute top-0 left-0 right-0 w-full h-full px-6 flex justify-center items-center bg-slate-700/20 z-50 overflow-hidden"
-      onClick={() => setCreatePost(!createPost)}
+      className="fixed top-0 left-0 right-0 w-full h-full px-6 flex justify-center items-center bg-slate-700/20 z-50 overflow-hidden"
+      onClick={() => setIsAddPost(!isAddPost)}
     >
       <div
         className="w-full max-w-2xl space-y-6 p-6 bg-white border border-slate-200 rounded-lg"
@@ -97,7 +123,7 @@ const NewPost = ({
           </p>
           <div className="ml-auto flex gap-2">
             <Button size="sm" onClick={handleSubmit}>
-              Post
+              {update ? "Update" : "Post"}
             </Button>
           </div>
         </div>
@@ -106,4 +132,4 @@ const NewPost = ({
   )
 }
 
-export default NewPost
+export default AddPost

@@ -52,7 +52,7 @@ const Register = () => {
         }, 1000)
       }
     } catch (e) {
-      console.log("[Error]", e)
+      showError("Something went wrong! Please try later!")
     }
   }
 

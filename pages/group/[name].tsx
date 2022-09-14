@@ -5,9 +5,9 @@ import { RootContext } from "context"
 import { IGroup } from "lib/types"
 import Layout from "components/layout"
 import Button from "components/buttons"
-import { PostList } from "components/post"
+import PostList from "components/post-list"
 import Loader from "components/loader"
-import NewPost from "components/post/newPost"
+import AddPost from "components/add-post"
 
 const Group = () => {
   const router = useRouter()
@@ -17,7 +17,7 @@ const Group = () => {
   } = useContext(RootContext)
   const [group, setGroup] = useState<IGroup>()
   const [joined, setJoined] = useState(false)
-  const [createPost, setCreatePost] = useState(false)
+  const [isAddPost, setIsAddPost] = useState(false)
 
   useEffect(() => {
     async function fetchGroup() {
@@ -49,11 +49,11 @@ const Group = () => {
 
   return (
     <>
-      {createPost && (
-        <NewPost
+      {isAddPost && (
+        <AddPost
           groupName={group?.name as string}
-          createPost={createPost}
-          setCreatePost={setCreatePost}
+          isAddPost={isAddPost}
+          setIsAddPost={setIsAddPost}
         />
       )}
 
@@ -93,7 +93,7 @@ const Group = () => {
               )}
             </div>
             <div className="my-2">
-              <Button size="sm" onClick={() => setCreatePost(!createPost)}>
+              <Button size="sm" onClick={() => setIsAddPost(!isAddPost)}>
                 Create a New Post!
               </Button>
             </div>
