@@ -4,6 +4,7 @@ import { RootContext } from "context"
 import Input, { TextArea } from "components/input"
 import Button from "components/buttons"
 import { useRouter } from "next/router"
+import Modal from "components/modal"
 
 interface IProps {
   groupName?: string
@@ -19,7 +20,7 @@ interface IProps {
 
 const AddPost = ({
   groupName,
-  isAddPost,
+  isAddPost = false,
   setIsAddPost = () => {},
   update = false,
   id,
@@ -89,46 +90,38 @@ const AddPost = ({
   }
 
   return (
-    <div
-      className="fixed top-0 left-0 right-0 w-full h-full px-6 flex justify-center items-center bg-slate-700/20 z-50 overflow-hidden"
-      onClick={() => setIsAddPost(!isAddPost)}
-    >
-      <div
-        className="w-full max-w-2xl space-y-6 p-6 bg-white border border-slate-200 rounded-lg"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div>
-          <Input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="Post title here!"
-            label="Post title"
-          />
-        </div>
-        <div>
-          <TextArea
-            id="comment"
-            value={body}
-            setValue={setBody}
-            placeholder="Post content here!"
-            label="Post Content"
-          />
-        </div>
-        <div className="flex justify-center items-center">
-          <p className={`ml-2 ${isErr ? "text-red-500" : "text-green-500"}`}>
-            {message}
-          </p>
-          <div className="ml-auto flex gap-2">
-            <Button size="sm" onClick={handleSubmit}>
-              {update ? "Update" : "Post"}
-            </Button>
-          </div>
+    <Modal open={isAddPost} setOpen={setIsAddPost}>
+      <div>
+        <Input
+          type="text"
+          id="title"
+          name="title"
+          value={title}
+          onChange={handleTitleChange}
+          placeholder="Post title here!"
+          label="Post title"
+        />
+      </div>
+      <div>
+        <TextArea
+          id="comment"
+          value={body}
+          setValue={setBody}
+          placeholder="Post content here!"
+          label="Post Content"
+        />
+      </div>
+      <div className="flex justify-center items-center">
+        <p className={`ml-2 ${isErr ? "text-red-500" : "text-green-500"}`}>
+          {message}
+        </p>
+        <div className="ml-auto flex gap-2">
+          <Button size="sm" onClick={handleSubmit}>
+            {update ? "Update" : "Post"}
+          </Button>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 
