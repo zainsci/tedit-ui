@@ -1,8 +1,16 @@
 import React from "react"
 
-const Loader = () => {
+interface IProps {
+  tiny?: boolean
+}
+
+const Loader = ({ tiny = false }: IProps) => {
   return (
-    <div className="w-full flex justify-center items-center animate-spin my-4">
+    <div
+      className={`w-full flex justify-center items-center animate-spin ${
+        !tiny && "my-4"
+      }`}
+    >
       <svg
         height="100%"
         viewBox="0 0 32 32"
@@ -13,7 +21,7 @@ const Loader = () => {
           cx="16"
           cy="16"
           fill="none"
-          r="14"
+          r={`${tiny ? 10 : 14}`}
           strokeWidth="4"
           style={{ stroke: "currentColor", opacity: "0.2" }}
         ></circle>
@@ -21,7 +29,7 @@ const Loader = () => {
           cx="16"
           cy="16"
           fill="none"
-          r="14"
+          r={`${tiny ? 10 : 14}`}
           strokeWidth="4"
           style={{
             stroke: "currentColor",
