@@ -8,6 +8,7 @@ import Button from "components/buttons"
 import PostList from "components/post-list"
 import Loader from "components/loader"
 import AddPost from "components/add-post"
+import SideBox from "components/side-box"
 
 const Group = () => {
   const router = useRouter()
@@ -67,7 +68,7 @@ const Group = () => {
         </div>
         {name ? (
           <div className="flex flex-col shadow-sm">
-            <div className="w-56 h-fit px-4 py-2 bg-white border border-slate-200 rounded-md">
+            <SideBox>
               {group ? (
                 <>
                   <h3 className="text-lg font-bold">{group?.name}</h3>
@@ -91,7 +92,8 @@ const Group = () => {
               ) : (
                 <Loader />
               )}
-            </div>
+            </SideBox>
+
             <div className="my-2">
               <Button size="sm" onClick={() => setIsAddPost(!isAddPost)}>
                 Create a New Post!
