@@ -53,7 +53,7 @@ const PostList = ({ groupName, userName }: IProps) => {
   }
 
   return posts ? (
-    <div>
+    <div className="w-full">
       {Array.from(posts).length > 0 ? (
         <>
           {Array.from(posts).map((post) => (
@@ -71,7 +71,9 @@ const PostList = ({ groupName, userName }: IProps) => {
           )}
         </>
       ) : (
-        <div>Nothing Here!</div>
+        <div className="min-w-full w-full px-3 py-2 bg-white border border-slate-200 rounded-md text-slate-600 text-sm">
+          Nothing to see here! Move along!
+        </div>
       )}
     </div>
   ) : (
