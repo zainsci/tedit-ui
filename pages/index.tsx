@@ -5,6 +5,8 @@ import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
 import Layout from "components/layout"
 import PostList from "components/post-list"
+import SideBox from "components/side-box"
+import GroupList from "components/group-list/group-list"
 
 const Home: NextPage = () => {
   const {
@@ -13,9 +15,10 @@ const Home: NextPage = () => {
 
   return token ? (
     <Layout title="Home">
-      <div className="max-w-xl w-full">
+      <div className="max-w-xl w-full flex">
         <PostList />
       </div>
+      <GroupList />
     </Layout>
   ) : (
     <div className="min-w-full min-h-screen flex flex-col justify-center items-center">
