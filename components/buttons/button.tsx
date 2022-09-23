@@ -6,6 +6,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   color?: "red" | "green" | "blue" | "purple"
   size?: "sm" | "md" | "lg"
   type?: "button" | "submit" | "reset" | undefined
+  disabled?: boolean
 }
 
 const Button = ({
