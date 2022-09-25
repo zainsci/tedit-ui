@@ -9,6 +9,7 @@ import PostList from "components/post-list"
 import Loader from "components/loader"
 import AddPost from "components/add-post"
 import SideBox from "components/side-box"
+import JoinGroup from "components/join-group"
 
 const Group = () => {
   const router = useRouter()
@@ -18,6 +19,7 @@ const Group = () => {
   } = useContext(RootContext)
   const [group, setGroup] = useState<IGroup>()
   const [joined, setJoined] = useState(false)
+  const [usersCount, setUsersCount] = useState(0)
   const [isAddPost, setIsAddPost] = useState(false)
 
   useEffect(() => {
@@ -28,25 +30,12 @@ const Group = () => {
 
         setGroup(data)
         if (data.users[0]?.username === username) setJoined(true)
+        setUsersCount(data?._count?.users || 0)
       } catch (e) {}
     }
 
     if (typeof name !== "undefined") fetchGroup()
   }, [name, username])
-
-  async function joinGroup() {
-    try {
-      const res = await fetch(`/api/group/${name}/join`, {
-        method: "POST",
-        body: JSON.stringify({ token }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      const data = await res.json()
-      setJoined(data.joined)
-    } catch (e) {}
-  }
 
   return (
     <>
@@ -75,17 +64,13 @@ const Group = () => {
                   <div className="text-xs mb-2 font-semibold flex gap-2">
                     <div className="flex-1 flex flex-col text-slate-600">
                       <div>Users</div>
-                      <div>{group?._count?.users}</div>
+                      <div>{usersCount}</div>
                     </div>
-                    <div className="flex-1 flex flex-col">
-                      <Button
-                        size="sm"
-                        variant={joined ? "outlined" : "primary"}
-                        onClick={joinGroup}
-                      >
-                        {joined ? "Joined" : "Join"}
-                      </Button>
-                    </div>
+                    <JoinGroup
+                      joined={joined}
+                      setJoined={setJoined}
+                      setUsersCount={setUsersCount}
+                    />
                   </div>
                   <p className="text-gray-700">{group?.description}</p>
                 </>
