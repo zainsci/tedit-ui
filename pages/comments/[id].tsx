@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
+import { RootContext } from "context"
 import { IPost } from "lib/types"
 import Layout from "components/layout"
 import Post from "components/post"
-import CommentList from "components/comment-list"
+import { CommentList } from "components/comment"
 import Loader from "components/loader"
-import { RootContext } from "context"
 
 const PostComments = () => {
   const {
@@ -24,11 +24,11 @@ const PostComments = () => {
         setPost(data)
       } catch (e) {}
     }
-    fetchPost()
-  }, [id])
+    typeof id !== "undefined" && fetchPost()
+  }, [id, username])
 
   return (
-    <Layout title={"Comment"}>
+    <Layout title={post?.title || "Comment"}>
       <div className="w-full max-w-xl">
         <div className="flex flex-col">
           {post ? <Post {...post} /> : <Loader />}

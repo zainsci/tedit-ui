@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import { IGroup } from "lib/types"
 import SideBox from "components/side-box"
-import CreateGroup from "components/create-group"
+import { CreateGroup } from "components/group"
 
 const GroupList = () => {
   const [groupList, setGroupList] = useState<IGroup[]>([])

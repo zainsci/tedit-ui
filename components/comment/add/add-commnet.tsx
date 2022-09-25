@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 
 import { RootContext } from "context"
 import { IComment } from "lib/types"
-import Input, { TextArea } from "components/input"
+import { TextArea } from "components/input"
 import Button from "components/buttons"
 
 interface IProps {

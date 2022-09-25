@@ -2,11 +2,10 @@ import { useContext } from "react"
 import type { NextPage } from "next"
 
 import { RootContext } from "context"
-import { LinkButton } from "components/buttons"
 import Layout from "components/layout"
-import PostList from "components/post-list"
-import SideBox from "components/side-box"
-import GroupList from "components/group-list/group-list"
+import { PostList } from "components/post"
+import { LinkButton } from "components/buttons"
+import { GroupList } from "components/group"
 
 const Home: NextPage = () => {
   const {

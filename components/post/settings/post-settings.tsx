@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 
 import { MoreHorizontal } from "components/icons"
-import AddPost from "components/add-post"
+import AddPost from "components/post/add-post"
 
 interface IProps {
   id: string | number

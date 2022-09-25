@@ -4,7 +4,7 @@ import Link from "next/link"
 import { IPost } from "lib/types"
 import { RootContext } from "context"
 import { LinkButton } from "components/buttons"
-import PostSettings from "components/post-settings"
+import { PostSettings } from "components/post"
 import Voting from "components/voting"
 import { MessageSquare } from "components/icons"
 

@@ -5,11 +5,10 @@ import { RootContext } from "context"
 import { IGroup } from "lib/types"
 import Layout from "components/layout"
 import Button from "components/buttons"
-import PostList from "components/post-list"
-import Loader from "components/loader"
-import AddPost from "components/add-post"
+import { PostList, AddPost } from "components/post"
 import SideBox from "components/side-box"
-import JoinGroup from "components/join-group"
+import { JoinGroup } from "components/group"
+import Loader from "components/loader"
 
 const Group = () => {
   const router = useRouter()
@@ -47,7 +46,7 @@ const Group = () => {
         />
       )}
 
-      <Layout title={""}>
+      <Layout title={(name as string) || ""}>
         <div className="w-full max-w-xl flex-1">
           {typeof name !== "undefined" ? (
             <PostList groupName={name as string} />

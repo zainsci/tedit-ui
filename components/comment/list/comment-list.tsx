@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import { IComment } from "lib/types"
 import Comment, { AddComment } from "components/comment"
-import Loader from "components/loader"
 
 const CommentList = ({ postId }: { postId: string }) => {
   const [comments, setComments] = useState<IComment[]>([])
@@ -15,7 +14,7 @@ const CommentList = ({ postId }: { postId: string }) => {
         setComments(data)
       } catch (e) {}
     }
-    fetchComments()
+    typeof postId !== "undefined" && fetchComments()
   }, [postId])
 
   return (
