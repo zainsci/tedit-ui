@@ -1,10 +1,20 @@
 import React, { useContext, useEffect, useState } from "react"
 
 import { RootContext } from "context"
-import { LinkButton } from "components/buttons"
-import { ArrowDown, ArrowUp } from "components/icons"
 import { IUser } from "lib/types"
+import Vote from "components/vote"
 
+/**
+ * if (click == upvote)
+ *    if (downvote == true) setDownvote(false)
+ *    if (upvote == true) setUpVote(false)
+ *    else setUpVote(true)
+ *
+ * if (click == downvote)
+ *    if (upvote == true) setUpVote(false)
+ *    if (downvote == true) setDownVote(false)
+ *    else setDownVote(true)
+ */
 interface IProps {
   id: string | number
   vote?: "up" | "down"
@@ -26,14 +36,16 @@ const Voting = ({
   const {
     state: { token, username },
   } = useContext(RootContext)
-  const [voteType, setVoteType] = useState<"up" | "down" | undefined>(vote)
+  const [currVote, setCurrVote] = useState<"up" | "down" | undefined>(vote)
+  const [upVotes, setUpVotes] = useState(_count.upvotes || 0)
+  const [downVotes, setDownVotes] = useState(_count.downvotes || 0)
 
   useEffect(() => {
-    if (upvotes[0]?.username === username) setVoteType("up")
-    if (downvotes[0]?.username === username) setVoteType("down")
+    if (upvotes[0]?.username === username) setCurrVote("up")
+    if (downvotes[0]?.username === username) setCurrVote("down")
   }, [upvotes, downvotes, username])
 
-  async function handleVoting(
+  async function setVote(
     e: React.MouseEvent<HTMLDivElement>,
     type: "up" | "down"
   ) {
@@ -45,47 +57,47 @@ const Voting = ({
       },
     })
     const data = await res.json()
-
     if (res.status !== 200) return
-    setVoteType(type)
+
+    if (type === "up") {
+      if (currVote === "down") setDownVotes(downVotes - 1)
+      if (currVote === "up") {
+        setUpVotes(upVotes - 1)
+        setCurrVote(undefined)
+      } else {
+        setUpVotes(upVotes + 1)
+        setCurrVote(type)
+      }
+    }
+
+    if (type === "down") {
+      if (currVote === "up") setUpVotes(upVotes - 1)
+      if (currVote === "down") {
+        setDownVotes(downVotes - 1)
+        setCurrVote(undefined)
+      } else {
+        setDownVotes(downVotes + 1)
+        setCurrVote(type)
+      }
+    }
   }
+
   return (
     <>
-      <div onClick={(e) => handleVoting(e, "up")}>
-        <LinkButton
-          size="sm"
-          className={`${
-            voteType === "up"
-              ? "text-purple-500 bg-purple-100 hover:bg-purple-200"
-              : "text-slate-600 bg-slate-50"
-          }`}
-        >
-          <ArrowUp />
-          {typeof _count?.upvotes !== "undefined" && _count?.upvotes > 0 && (
-            <div className="text-[.65rem] w-5 h-5 border border-slate-100 rounded-md bg-white flex justify-center items-center">
-              {_count?.upvotes}
-            </div>
-          )}
-        </LinkButton>
-      </div>
-      <div onClick={(e) => handleVoting(e, "down")}>
-        <LinkButton
-          size="sm"
-          className={`${
-            voteType === "down"
-              ? "text-purple-500 bg-purple-100 hover:bg-purple-200"
-              : "text-slate-600 bg-slate-50"
-          }`}
-        >
-          <ArrowDown />
-          {typeof _count?.downvotes !== "undefined" &&
-            _count?.downvotes > 0 && (
-              <div className="text-[.65rem] w-5 h-5 border border-slate-100 rounded-md bg-white flex justify-center items-center">
-                {_count?.downvotes}
-              </div>
-            )}
-        </LinkButton>
-      </div>
+      <Vote
+        id={id}
+        isActive={currVote === "up"}
+        type="up"
+        count={upVotes}
+        setVote={(e) => setVote(e, "up")}
+      />
+      <Vote
+        id={id}
+        isActive={currVote === "down"}
+        type="down"
+        count={downVotes}
+        setVote={(e) => setVote(e, "down")}
+      />
     </>
   )
 }
